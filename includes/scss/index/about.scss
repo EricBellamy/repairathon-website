@@ -8,13 +8,23 @@
 	}
 
 	.top {
-		
 	}
 	.bottom {
-		.title, .subtitle {
+		.title,
+		.subtitle {
 			color: #fff;
 		}
 		.title {
+			margin: 32px 0 16px;
+		}
+	}
+
+	@media screen and (min-width: 600px) {
+		.top {
+			picture {
+				max-width: 640px;
+				margin: 0 auto;
+			}
 		}
 	}
 }

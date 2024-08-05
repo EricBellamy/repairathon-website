@@ -16,12 +16,17 @@
 	}
 	.subtitle {
 		color: #fff;
+		max-width: 640px;
 	}
 	.button {
 		margin-top: 32px;
 		color: #009806;
 		background: #fff;
 		padding: 16px 64px;
+	}
+
+	@media screen and (min-width: 960px){
+		padding: 128px 16px;
 	}
 }
 
@@ -30,4 +35,5 @@
 	opacity: 0.4;
 	padding: 16px;
 	text-align: center;
+	font-size: 14px;
 }
