@@ -12,7 +12,7 @@
 	.text {
 		color: #fff;
 	}
-	
+
 	.steps {
 		padding: 16px;
 
@@ -20,11 +20,12 @@
 			display: flex;
 			justify-content: center;
 			width: 100%;
-			max-width: 6082px;
+			max-width: 640px;
 			margin: 0 auto;
 			padding: 0 64px;
 
-			.svg, svg {
+			.svg,
+			svg {
 				width: 100%;
 			}
 		}
@@ -32,11 +33,19 @@
 
 	.step {
 		position: relative;
-		display: flex;
-		flex-direction: column;
-		padding: 32px;
+
 		color: #fff;
-		max-width: 640px;
+
+		.wrapper {
+			display: flex;
+			flex-direction: column;
+			padding: 32px;
+			max-width: 640px;
+			position: relative;
+		}
+		&.left .wrapper {
+			margin-left: auto;
+		}
 
 		svg {
 			position: absolute;
@@ -53,13 +62,9 @@
 			}
 		}
 
-		&.left {
-			margin-left: auto;
-		}
-
 		&.numbered {
-			&:before {
-				content: '';
+			.wrapper:before {
+				content: "";
 				position: absolute;
 				top: 0;
 				left: 0;
@@ -99,7 +104,10 @@
 				bottom: 100%;
 				z-index: 0;
 				stroke-dasharray: 0, 5000;
-				
+				max-width: 640px;
+				left: 50%;
+				transform: translate(-50%, 0);
+
 				path {
 					stroke: #009806;
 				}
@@ -111,7 +119,7 @@
 			margin-bottom: 8px;
 		}
 		a {
-			color: #C58E00;
+			color: #c58e00;
 			text-decoration: underline;
 		}
 	}
