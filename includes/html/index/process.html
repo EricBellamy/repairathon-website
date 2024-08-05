@@ -1,0 +1,201 @@
+<include src="index/process.scss"></include>
+<include src="lib/anime.min.js"></include>
+<div id="process">
+	<h1 class="title ff-title lh-15">The Repairathon Process</h1>
+	<div class="steps">
+		<div class="step optional">
+			<include src="index/process/svg-dashed.html"></include>
+			<div class="little">Optional</div>
+			<div class="text description-large">Fill out <a href="google.com" target="_blank">our form</a> about what
+				you would like
+				repaired</div>
+		</div>
+
+		<div class="divider">
+			<include src="index/left-to-right.svg"></include>
+		</div>
+		<include src="index/process/step.html" number="1" text="Show up on the date of the repairathon"></include>
+
+		<div class="divider right">
+			<include src="index/right-to-left.svg"></include>
+		</div>
+		<include src="index/process/step.html" number="2"
+			text="See our front desk to give us details about your repair and drop your item off"></include>
+
+		<div class="divider">
+			<include src="index/left-to-right.svg"></include>
+		</div>
+		<include src="index/process/step.html" number="3"
+			text="A volunteer will diagnose your item and get it ready for repair"></include>
+
+		<div class="divider right">
+			<include src="index/right-to-left.svg"></include>
+		</div>
+		<include src="index/process/step.html" number="4"
+			text="If any specialty parts are required we will let you know so that you can acquire them"></include>
+
+		<div class="divider">
+			<include src="index/left-to-right.svg"></include>
+		</div>
+		<include src="index/process/step.html" number="5"
+			text="A volunteer will perform the repairs and ensure that they are operational"></include>
+
+		<div class="divider right">
+			<include src="index/right-to-left.svg"></include>
+		</div>
+		<include src="index/process/step.html" number="6" text="You will be contacted to pickup your item"></include>
+	</div>
+</div>
+<script>
+	// Function to update the stroke-dasharray based on the current size of the SVG
+	function getSvgPathLength(pathElement) {
+		// Get the total length of the path in user units
+		const length = pathElement.getTotalLength();
+
+		// Get the transformation matrix
+		const matrix = pathElement.getScreenCTM();
+
+		// Extract the scaling factors
+		// The scale factor can be derived from the matrix values a and d
+		// For uniform scaling, we assume scaleX and scaleY are the same
+		const scaleX = Math.sqrt(matrix.a * matrix.a + matrix.b * matrix.b);
+		const scaleY = Math.sqrt(matrix.c * matrix.c + matrix.d * matrix.d);
+
+		// For non-uniform scaling, you might want to handle scaleX and scaleY separately
+		const scale = (scaleX + scaleY) / 2; // Average scale factor
+
+		// Adjust the stroke dasharray length by the scale factor
+		const scaledLength = length * scale; // Use multiplication to scale up
+
+		return scaledLength;
+	}
+
+	window.addEventListener('load', function () {
+		const steps = Array.from(document.getElementsByClassName("step"));
+		steps.splice(0, 1);
+
+		for (const step of steps) {
+			const targetRect = step.querySelector("rect.border");
+			const targetNumber = step.querySelector(".number");
+			const targetText = step.querySelector(".text");
+			const targetContainer = step.querySelector(".container");
+
+			// Get the path elemen
+			step.animatedDivider = step.querySelector('.animatedDivider svg');
+			const targetSvgPath = step.animatedDivider.querySelector('path');
+			step.dividerPathLength = getSvgPathLength(targetSvgPath);
+			targetSvgPath.setAttribute("stroke-dasharray", "0, " + step.dividerPathLength);
+
+			const stepBounds = step.getBoundingClientRect();
+			step.dashArrayLength = stepBounds.width * 2 + stepBounds.height * 2 + 10;
+
+			step.animation = anime.timeline({
+				easing: 'linear',
+				autoplay: false,
+			})
+				.add({
+					targets: targetRect,
+					elasticity: 0,
+					opacity: [0, 1],
+					duration: 15
+				})
+				.add({
+					targets: targetRect,
+					elasticity: 0,
+					easing: 'linear',
+					duration: 100,
+					strokeDasharray: ['0, ' + step.dashArrayLength, step.dashArrayLength + ', ' + step.dashArrayLength]
+				}, '-=15')
+				.add({
+					targets: targetNumber,
+					elasticity: 0,
+					easing: 'easeOutQuad',
+					duration: 60,
+					background: ['#333', '#009806']
+				}, '-=60')
+				.add({
+					targets: targetContainer,
+					elasticity: 0,
+					easing: 'easeOutQuad',
+					duration: 60,
+					opacity: [0.5, 1],
+					scale: [0.98, 1]
+				}, '-=60');
+
+			step.pathAnimation = anime.timeline({
+				easing: 'easeOutQuad',
+				autoplay: false,
+				update: function (stepAnimation, anim) {
+					if (anim.progress != 100) {
+						if (stepAnimation.phase != 0) {
+							stepAnimation.phase = 0;
+							stepAnimation.reverse();
+							stepAnimation.play();
+						}
+					}
+
+					if (anim.progress === 100) {
+						if (stepAnimation.phase != 1) {
+							stepAnimation.phase = 1;
+							stepAnimation.reverse();
+							stepAnimation.play();
+						}
+					}
+				}.bind(null, step.animation),
+			}).add({
+				targets: targetSvgPath,
+				duration: 100,
+				strokeDasharray: ['0, ' + step.dividerPathLength, step.dividerPathLength + ', ' + step.dividerPathLength],
+				complete: function (stepAnimation) {
+					if (stepAnimation.phase != 1) {
+						if (stepAnimation.phase != undefined) stepAnimation.reverse();
+						stepAnimation.phase = 1;
+						stepAnimation.play();
+					}
+				}.bind(null, step.animation),
+			});
+		}
+
+
+		window.scroll.listen.urgent(function (scrollTop, scrollBottom) {
+			const windowHeight = window.innerHeight;
+			const finishedHeight = windowHeight * 0.4; // This controls where the steps activate --> 0.5 = 50% screen height
+			const remainingHeight = windowHeight - finishedHeight;
+
+			let last = {
+				step: undefined,
+				bounds: undefined,
+			};
+
+			for (const step of steps) {
+				const stepBounds = step.getBoundingClientRect();
+				if (last.step === undefined) {
+					// Set progress based on distance to halfway
+					const stepTop = stepBounds.top;
+					const windowHeightDiff = Math.min(windowHeight - stepTop, finishedHeight) / finishedHeight;
+
+					if (step.lastPositionDiff != windowHeightDiff) {
+						step.pathAnimation.seek(windowHeightDiff * 100);
+						step.lastPositionDiff = windowHeightDiff;
+					}
+				} else {
+					const lastStepPositionDiff = remainingHeight - last.bounds.top;
+					const dividerHeight = step.animatedDivider.getBoundingClientRect().height;
+					const targetDiff = dividerHeight + last.bounds.height;
+
+					// Minimum 0, max target
+					const safePositionDiff = Math.max(0, Math.min(targetDiff, lastStepPositionDiff));
+					const diffProgressPercentage = (safePositionDiff / targetDiff) * 100;
+
+					if (step.lastPositionDiff != diffProgressPercentage) {
+						step.pathAnimation.seek(diffProgressPercentage);
+						step.lastPositionDiff = diffProgressPercentage;
+					}
+				}
+
+				last.step = step;
+				last.bounds = stepBounds;
+			}
+		});
+	});
+</script>

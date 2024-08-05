@@ -1,0 +1,17 @@
+<?
+const number = parseInt(attr.number);
+const sideClass = number % 2 === 0 ? "right" : "left";
+const dividerSrc = number % 2 === 0 ? "index/right-to-left.svg" : "index/left-to-right.svg";
+?>
+<div class="step numbered {{sideClass}}">
+	<include class="animatedDivider" src="{{dividerSrc}}"></include>
+	<include src="index/process/svg-border.html"></include>
+	<div class="row container">
+		<div class="left column">
+			<div class="number"><span class="abs-center">{{attr.number}}</span></div>
+		</div>
+		<div class="right column">
+			<div class="text description-regular">{{attr.text}}</div>
+		</div>
+	</div>
+</div>
