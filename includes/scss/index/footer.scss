@@ -2,7 +2,7 @@
 	background: #009806;
 	color: #fff;
 	text-align: center;
-	padding: 64px 16px;
+	padding: 64px 32px;
 
 	.bottom {
 		display: flex;
@@ -25,7 +25,7 @@
 		padding: 16px 64px;
 	}
 
-	@media screen and (min-width: 960px){
+	@media screen and (min-width: 640px){
 		padding: 128px 16px;
 	}
 }

@@ -7,7 +7,8 @@
 			<div class="wrapper">
 				<include src="index/process/svg-dashed.html"></include>
 				<div class="little">Optional</div>
-				<div class="text description-large">Fill out <a href="google.com" target="_blank">our form</a> about what
+				<div class="text description-large">Fill out <a href="google.com" target="_blank">our form</a> about
+					what
 					you would like
 					repaired</div>
 			</div>
@@ -76,8 +77,10 @@
 		const steps = Array.from(document.getElementsByClassName("step"));
 		steps.splice(0, 1);
 
-		for (const step of steps) {
-			const targetRect = step.querySelector("rect.border");
+		for (let i = 0; i < steps.length; i++) {
+			const step = steps[i];
+
+			const targetWrapper = step.querySelector(".wrapper");
 			const targetNumber = step.querySelector(".number");
 			const targetText = step.querySelector(".text");
 			const targetContainer = step.querySelector(".container");
@@ -88,25 +91,22 @@
 			step.dividerPathLength = getSvgPathLength(targetSvgPath);
 			targetSvgPath.setAttribute("stroke-dasharray", "0, " + step.dividerPathLength);
 
-			const stepBounds = step.getBoundingClientRect();
-			step.dashArrayLength = stepBounds.width * 2 + stepBounds.height * 2 + 10;
-
 			step.animation = anime.timeline({
 				easing: 'linear',
 				autoplay: false,
 			})
 				.add({
-					targets: targetRect,
+					targets: step,
 					elasticity: 0,
-					opacity: [0, 1],
+					opacity: [0.8, 1],
 					duration: 15
 				})
 				.add({
-					targets: targetRect,
+					targets: targetWrapper,
 					elasticity: 0,
 					easing: 'linear',
-					duration: 100,
-					strokeDasharray: ['0, ' + step.dashArrayLength, step.dashArrayLength + ', ' + step.dashArrayLength]
+					duration: 120,
+					boxShadow: ['inset 0 0 0px 0 #0f0', 'inset 0 0 4px 0 #0f0']
 				}, '-=15')
 				.add({
 					targets: targetNumber,
@@ -169,15 +169,16 @@
 				bounds: undefined,
 			};
 
-			for (const step of steps) {
+			for (let i = 0; i < steps.length; i++) {
+				const step = steps[i];
 				const stepBounds = step.getBoundingClientRect();
 				if (last.step === undefined) {
 					// Set progress based on distance to halfway
 					const stepTop = stepBounds.top;
-					const windowHeightDiff = Math.min(windowHeight - stepTop, finishedHeight) / finishedHeight;
+					const windowHeightDiff = (Math.min(windowHeight - stepTop, finishedHeight) / finishedHeight) * 100;
 
 					if (step.lastPositionDiff != windowHeightDiff) {
-						step.pathAnimation.seek(windowHeightDiff * 100);
+						step.pathAnimation.seek(windowHeightDiff);
 						step.lastPositionDiff = windowHeightDiff;
 					}
 				} else {
