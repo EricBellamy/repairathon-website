@@ -3,7 +3,7 @@ let isFake = attr.image === undefined;
 ?>
 <div class="repair-example item <? log(isFake ? "fake" : "" ); ?>">
 	<? if(!isFake){ ?>
-	<include key="repair-example-{{attr.image}}" src="index/splash/examples/{{attr.image}}.jpg"></include>
+	<include key="repair-example-{{attr.image}}" src="index/splash/examples/{{attr.image}}.jpg" alt="{{attr.alt}}"></include>
 	<? } ?>
 	<div class="text ff-title">{{attr.text}}</div>
 </div>
