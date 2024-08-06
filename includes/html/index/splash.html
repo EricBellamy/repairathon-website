@@ -8,7 +8,7 @@
 					devices for free in Ottawas first repairathon.</p>
 				<a href="https://maps.app.goo.gl/nShAaMeBGFh5h5QV7" target="_blank" class="icon-row location">
 					<div class="column left">
-						<include src="index/splash/icons/location.png"></include>
+						<include key="splash-location" src="index/splash/icons/location.png"></include>
 					</div>
 					<div class="right">
 						<h2>Ottawa South Community Center</h2>
@@ -17,7 +17,7 @@
 				</a>
 				<div class="icon-row calendar">
 					<div class="column left">
-						<include src="index/splash/icons/calendar.png"></include>
+						<include key="splash-calendar" src="index/splash/icons/calendar.png"></include>
 					</div>
 					<div class="right">
 						<h3>Friday</h3>
@@ -26,12 +26,18 @@
 				</div>
 			</div>
 		</div>
-		<include class="background" src="index/splash.jpg"></include>
+		<include class="background" key="splash-main" src="index/splash.jpg"></include>
 		<div class="scroll-notice">
 			<div class="arrows">
-				<div class="arrow"><include src="index/arrow.svg"></include></div>
-				<div class="arrow"><include src="index/arrow.svg"></include></div>
-				<div class="arrow"><include src="index/arrow.svg"></include></div>
+				<div class="arrow">
+					<include src="index/arrow.svg"></include>
+				</div>
+				<div class="arrow">
+					<include src="index/arrow.svg"></include>
+				</div>
+				<div class="arrow">
+					<include src="index/arrow.svg"></include>
+				</div>
 			</div>
 			<div class="column">
 				<div class="text">Find out more</div>
@@ -39,28 +45,11 @@
 		</div>
 	</div>
 	<div class="bottom">
-		<div class="item">
-			<include src="index/splash/examples/appliances.jpg"></include>
-			<div class="text ff-title">Appliances</div>
-		</div>
-		<div class="item">
-			<include src="index/splash/examples/bicycles.jpg"></include>
-			<div class="text ff-title">Bicycles</div>
-		</div>
-		<div class="item">
-			<include src="index/splash/examples/broken_cords.jpg"></include>
-			<div class="text ff-title">Broken Cords</div>
-		</div>
-		<div class="item">
-			<include src="index/splash/examples/computers.jpg"></include>
-			<div class="text ff-title">Computers</div>
-		</div>
-		<div class="item">
-			<include src="index/splash/examples/tools.jpg"></include>
-			<div class="text ff-title">Tools</div>
-		</div>
-		<div class="item fake">
-			<div class="text ff-title">And Many More...</div>
-		</div>
+		<include src="index/splash/repair-example.html" text="Appliances" image="appliances"></include>
+		<include src="index/splash/repair-example.html" text="Bicycles" image="bicycles"></include>
+		<include src="index/splash/repair-example.html" text="Broken Cords" image="broken_cords"></include>
+		<include src="index/splash/repair-example.html" text="Computers" image="computers"></include>
+		<include src="index/splash/repair-example.html" text="Tools" image="tools"></include>
+		<include src="index/splash/repair-example.html" text="And Many More..."></include>
 	</div>
 </div>

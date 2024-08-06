@@ -73,7 +73,7 @@
 		return scaledLength;
 	}
 
-	function updateDividerPathLength(step){
+	function updateDividerPathLength(step) {
 		step.dividerPathLength = getSvgPathLength(step.querySelector('.animatedDivider svg path'));
 	}
 
@@ -205,11 +205,8 @@
 			}
 		});
 
-		window.resize.listen(function(){
-			for(const step of window.processSteps){
-				updateDividerPathLength(step);
-				console.log(step.dividerPathLength);
-			}
+		window.resize.listen(function () {
+			for (const step of window.processSteps) updateDividerPathLength(step);
 		});
 	});
 </script>
