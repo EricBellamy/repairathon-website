@@ -1,3 +1,15 @@
+@keyframes fadeInOut {
+	0% {
+		opacity: 0;
+	}
+	30%, 50% {
+		opacity: 1;
+	}
+	70% {
+		opacity: 0;
+	}
+}
+
 #splash {
 	.top {
 		position: relative;
@@ -42,8 +54,8 @@
 			}
 			.subtitle {
 				font-size: 20px;
-				max-width: 640px;
-				margin-bottom: 32px;
+				max-width: 560px;
+				margin-bottom: 48px;
 				color: #fff;
 			}
 
@@ -52,7 +64,11 @@
 				font-size: 16px;
 				display: flex;
 				position: relative;
-				max-width: 480px;
+				max-width: 440px;
+
+				* {
+					color: #fff;
+				}
 
 				h2,
 				h3 {
@@ -81,6 +97,33 @@
 				width: 24px;
 			}
 		}
+
+		.scroll-notice {
+			position: absolute;
+			bottom: 16px;
+			left: 16px;
+			color: #fff;
+			z-index: 2;
+			display: flex;
+			opacity: 1;
+			transition: opacity .6s ease;
+
+			.arrows {
+				margin-right: 16px;
+
+				.arrow {
+					opacity: 0;
+				}
+
+				@for $i from 1 through 5 {
+					.arrow:nth-child(#{$i}) {
+						animation: fadeInOut 3s ease-out infinite;
+						animation-delay: $i * 0.3s; // Adjust the multiplier as needed
+						animation-fill-mode: forwards;
+					}
+				}
+			}
+		}
 	}
 
 	.bottom {
@@ -106,7 +149,7 @@
 				}
 			}
 			&:after {
-				content: '';
+				content: "";
 				position: absolute;
 				top: 0;
 				left: 0;
@@ -253,4 +296,9 @@
 			}
 		}
 	}
+}
+
+
+.scrolled #splash .scroll-notice {
+	opacity: 0;
 }

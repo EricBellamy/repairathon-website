@@ -73,12 +73,16 @@
 		return scaledLength;
 	}
 
-	window.addEventListener('load', function () {
-		const steps = Array.from(document.getElementsByClassName("step"));
-		steps.splice(0, 1);
+	function updateDividerPathLength(step){
+		step.dividerPathLength = getSvgPathLength(step.querySelector('.animatedDivider svg path'));
+	}
 
-		for (let i = 0; i < steps.length; i++) {
-			const step = steps[i];
+	window.addEventListener('load', function () {
+		window.processSteps = Array.from(document.getElementsByClassName("step"));
+		window.processSteps.splice(0, 1);
+
+		for (let i = 0; i < window.processSteps.length; i++) {
+			const step = window.processSteps[i];
 
 			const targetWrapper = step.querySelector(".wrapper");
 			const targetNumber = step.querySelector(".number");
@@ -169,8 +173,8 @@
 				bounds: undefined,
 			};
 
-			for (let i = 0; i < steps.length; i++) {
-				const step = steps[i];
+			for (let i = 0; i < window.processSteps.length; i++) {
+				const step = window.processSteps[i];
 				const stepBounds = step.getBoundingClientRect();
 				if (last.step === undefined) {
 					// Set progress based on distance to halfway
@@ -198,6 +202,13 @@
 
 				last.step = step;
 				last.bounds = stepBounds;
+			}
+		});
+
+		window.resize.listen(function(){
+			for(const step of window.processSteps){
+				updateDividerPathLength(step);
+				console.log(step.dividerPathLength);
 			}
 		});
 	});
